@@ -9,7 +9,7 @@ const URL = 'https://opendata-download-metfcst.smhi.se/api/category/pmp3g/versio
 
 app.use(cors());
 
-app.get('/getWeatherInfo/all/', async (req, res) => {
+app.get('/getWeather/', async (req, res) => {
 
   let result;
 
