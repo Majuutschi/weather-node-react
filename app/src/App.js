@@ -1,14 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import './App.css';
+import LoadingIndicator from './LoadingIndicator';
 
 
 const App = () => {
 
   const [weatherData, setWeatherData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [temp, setTemp] = useState([]);
-  const [wind, setWind] = useState([]);
+  const [date, setDate] = useState('');
+  const [number, setNumber] = useState(3);
 
+  const handleNext = () => {
+    setNumber(number + 1)
+  }
+
+  const handleBack = () => {
+    setNumber(number - 1)
+  }
 
   useEffect(() => {
 
@@ -25,29 +33,45 @@ const App = () => {
       );
 
       const postData = await response.json();
-      setWeatherData(postData.timeSeries[1]);
+
+      setWeatherData(postData.timeSeries[number]);
+      setDate(postData.timeSeries[number].validTime)
       setIsLoading(false);
-      setTemp(postData.timeSeries[1].parameters[10].values[0]);
-      setWind(postData.timeSeries[1].parameters[14].values[0]);
-      console.log(postData.timeSeries[1].validTime)
+      
+      console.log(postData)
+      console.log(number)
+
     };
 
     fetchWeatherDetails()
   }, []);
+
+  
+  console.log(number)
 
 
   return (
     <div className="App">
       {
         isLoading &&
-        <p>Getting your weather details!</p>
+        <div>
+          <LoadingIndicator />
+          <p className='loading'>Getting your weather details!</p>
+        </div>
+        
       }
       {
         !isLoading &&
         <div>
-          <h4>The weather forecast for today at the Royal Palace in Stockholm</h4>
-          <p>Temperature: {temp} {weatherData.parameters[10].unit}</p>
-          <p>Wind: {wind} {weatherData.parameters[14].unit}</p>
+          <div className='weather'>
+            <h1>The weather forecast { date.slice(11, 16) } on { date.slice(8, 10) }/{ date.slice(5, 7) } at the Royal Palace in Stockholm</h1>
+            <p>Temperature: { weatherData.parameters[10].values[0] } { weatherData.parameters[10].unit }</p>
+            <p>Wind: { weatherData.parameters[14].values[0] } {weatherData.parameters[14].unit}</p>
+          </div>
+          <div className='buttons'>
+            <button onClick={handleBack}>Back</button>
+            <button onClick={handleNext}>Next</button>
+          </div>
         </div>
         
       }
