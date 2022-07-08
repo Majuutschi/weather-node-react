@@ -11,8 +11,36 @@ html, body {
 }
 
 .App {
-  display: flex;
+  padding: 2rem;
   height: 100vh;
+}
+
+
+
+/* Navbar */
+.navbar ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar a {
+  text-decoration: none;
+  margin: 0 2rem;
+  color: #3361f8;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  color: #173cb6;
+}
+
+
+/* Weather */
+.weather-view {
+  display: flex;
+  height: 90%;
   justify-content: center;
   align-items: center;
   padding: 2rem;
@@ -48,6 +76,23 @@ html, body {
   transition: 0.2s ease-in-out;
   background: #3361f8dc;
   box-shadow: 1px 1px 5px #4551d4;
+}
+
+.favorite-button button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  background: #274abd;
+  box-shadow: 2px 2px 3px #424dbc;
+  color: #d5eafc;
+  font-weight: bold;
+}
+
+.favorite-button button:hover {
+  transition: 0.2s ease-in-out;
+  background: #274abdda;
+  box-shadow: 1px 1px 5px #424dbc;
 }
 
 
@@ -114,4 +159,34 @@ html, body {
   100% {
     transform: translate(12px, 0);
   }
+}
+
+
+/* Favorites */
+.favorites {
+  display: flex;
+  height: 90%;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  text-align: center;
+}
+
+
+/* Footer */
+.footer {
+  padding-top: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.footer i {
+  margin: 0 1rem;
+}
+
+.footer p {
+  margin: 0 1rem;
 }
