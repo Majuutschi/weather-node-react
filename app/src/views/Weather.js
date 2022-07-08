@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { WiCloud, WiCloudy, WiDayCloudy, WiDayCloudyHigh, WiDaySunny, WiDaySunnyOvercast, WiFog, WiHail, WiRain, WiRainWind, WiShowers, WiSleet, WiSnow, WiSnowWind, WiSprinkle, WiThunderstorm } from 'weather-icons-react';
 import LoadingIndicator from '../LoadingIndicator';
+import { addFavorite } from '../store/favoriteActions';
 
 const Weather = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -12,7 +14,10 @@ const Weather = () => {
   const [preCat, setPreCat] = useState('');
   const [iconNumber, setIconNumber] = useState(0);
   const [icon, setIcon] = useState('');
-  
+  const [favorite, setFavorite] = useState(false);
+
+
+  const dispatch = useDispatch();
 
   const handleNext = () => {
     if (number < 73) {
@@ -28,6 +33,14 @@ const Weather = () => {
     } else {
       setNumber(number)
     }
+  }
+
+  const handleFavorite = () => {
+    if (favorite === false) {
+      setFavorite(true)
+      dispatch(addFavorite(myWeather))
+    } 
+    console.log(myWeather)
   }
 
 
@@ -67,9 +80,6 @@ const Weather = () => {
       }
 
       setIsLoading(false);
-
-      console.log(postData.timeSeries[number].parameters);
-      console.log(iconNumber);
 
       const pCat = () => { 
         switch (preNumber) {
@@ -193,8 +203,14 @@ const Weather = () => {
     };
 
     fetchWeatherDetails();
-  }, [number, iconNumber]);
+  }, [number, iconNumber, preNumber]);
   
+  const myWeather = {
+    date,
+    icon,
+    temp,
+    preCat
+  }
 
   return (
     <div className='weather-view'>
@@ -209,6 +225,7 @@ const Weather = () => {
       {
         !isLoading &&
         <div>
+
           <div className='weather'>
             <h1>The weather forecast { date.slice(11, 16) } on { date.slice(8, 10) }/{ date.slice(5, 7) } at the Royal Palace in Stockholm</h1>
             <p>{ icon } </p>
@@ -216,16 +233,19 @@ const Weather = () => {
             <p>Wind: { wind.values[0] } {wind.unit}</p>
             <p>{ preCat }</p>
           </div>
+
           <div>
             <div className='buttons'>
               <button onClick={handleBack}>Back</button>
               <button onClick={handleNext}>Next</button>
             </div>
+
             <div className='favorite-button'>
-              <button><i className='fa-solid fa-star'></i> Make favorite</button>
+              <button onClick={handleFavorite}><i className='fa-solid fa-star'></i> Make favorite</button>
             </div>
+            
           </div>
-          
+
         </div>
         
       }
